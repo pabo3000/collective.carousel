@@ -20,6 +20,10 @@
          zcml:condition="installed plone.app.collection">
    <implements interface="collective.carousel.interfaces.ICarouselProvider" />
   </class>
+  <class class="plone.app.contenttypes.content.Collection"
+         zcml:condition="installed plone.app.contenttypes">
+   <implements interface="collective.carousel.interfaces.ICarouselProvider" />
+  </class>
 
   <!-- viewlet registration -->
   <browser:viewlet
@@ -42,18 +46,43 @@
       />
   <browser:page
       name="carousel-view"
-      for="Products.ATContentTypes.interface.IATNewsItem"
+      for="plone.app.contenttypes.interfaces.INewsItem"
       template="templates/news_item_tile.pt"
       permission="zope2.View"
       layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
       />
   <browser:page
       name="carousel-view"
-      for="Products.ATContentTypes.interface.IATImage"
+      for="plone.app.contenttypes.interfaces.IImage"
       template="templates/image_tile.pt"
       permission="zope2.View"
       layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
       />
+
+  <!-- Views for when plone.app.contenttypes is installed -->
+  <configure zcml:condition="installed plone.app.contenttypes">
+    <browser:page
+        name="carousel-view"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        template="templates/default_tile.pt"
+        permission="zope2.View"
+        layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
+        />
+    <browser:page
+        name="carousel-view"
+        for="Products.ATContentTypes.interface.IATNewsItem"
+        template="templates/news_item_tile.pt"
+        permission="zope2.View"
+        layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
+        />
+    <browser:page
+        name="carousel-view"
+        for="Products.ATContentTypes.interface.IATImage"
+        template="templates/image_tile.pt"
+        permission="zope2.View"
+        layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
+        />
+  </configure>
 
   <!-- Views for carousel portlet -->
   <!-- default view for standard carousel is good enough for the portlet as well -->

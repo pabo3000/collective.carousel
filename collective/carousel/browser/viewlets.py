@@ -6,11 +6,14 @@ from plone.app.layout.viewlets.common import ViewletBase
 from zope.interface import alsoProvides
 
 try:
-    from plone.app.collection.interfaces import ICollection
+    from plone.app.contenttypes.interfaces import ICollection
 except ImportError:
-    from zope.interface import Interface
-    class ICollection(Interface):
-        pass
+    try:
+        from plone.app.collection.interfaces import ICollection
+    except ImportError:
+        from zope.interface import Interface
+        class ICollection(Interface):
+            pass
 
 class CarouselViewlet(ViewletBase):
     index = ViewPageTemplateFile('templates/carousel.pt')
@@ -39,6 +42,7 @@ class CarouselViewlet(ViewletBase):
             if ICollection.providedBy(provider):
                 res = provider.results(b_size=7)
                 return res
+            import ipdb; ipdb.set_trace()
             return provider.queryCatalog()[:7]
         return results
 
