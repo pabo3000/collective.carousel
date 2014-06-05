@@ -42,7 +42,6 @@ class CarouselViewlet(ViewletBase):
             if ICollection.providedBy(provider):
                 res = provider.results(b_size=7)
                 return res
-            import ipdb; ipdb.set_trace()
             return provider.queryCatalog()[:7]
         return results
 
@@ -62,8 +61,8 @@ class CarouselViewlet(ViewletBase):
         # When adapter is uesd this means we check whether obj has any special
         # instructions about how to be handled in defined view or interface
         # for multi adapter the same is true except more object than just the
-        # obj are check for instructions
-        #have to use traverse to make zpt security work
+        # obj are check for instructions have to use traverse to make zpt
+        # security work
         tile = obj.unrestrictedTraverse("carousel-view")
         if tile is None:
             return None
