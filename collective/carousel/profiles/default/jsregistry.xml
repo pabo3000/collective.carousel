@@ -3,10 +3,74 @@
  <!-- upgrade -->
  <javascript remove="True" id="jquery.tools.min.js"/>
  <javascript remove="True" id="carousel.js"/>
- 
+
  <javascript enabled="True" id="++resource++plone.app.jquerytools.plugins.js"/>
  <javascript
     id="++resource++collective.carousel/carousel.js"
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="True"
+    expression=""
+    inline="False"
+    />
+ <javascript
+    id="++resource++collective.carousel/jquery.cookie.js"
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="True"
+    expression=""
+    inline="False"
+    />
+ <javascript
+    id="++resource++collective.carousel/modernizr.js"
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="True"
+    expression=""
+    inline="False"
+    />
+ <javascript
+    id="++resource++collective.carousel/placeholder.js"
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="True"
+    expression=""
+    inline="False"
+    />
+ <javascript
+    id="++resource++collective.carousel/fastclick.js"
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="True"
+    expression=""
+    inline="False"
+    />
+
+ <javascript
+    id="++resource++collective.carousel/foundation.js"
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="True"
+    expression=""
+    inline="False"
+    />
+ <javascript
+    id="++resource++collective.carousel/foundation.orbit.js"
+    cacheable="True"
+    compression="safe"
+    cookable="True"
+    enabled="True"
+    expression=""
+    inline="False"
+    />
+ <javascript
+    id="++resource++collective.carousel/foundation.slider.js"
     cacheable="True"
     compression="safe"
     cookable="True"

@@ -3,10 +3,21 @@
     define="desc context/Description | nothing;
             image_scale request/carousel_image_scale|nothing;
             picture nocall:context/image">
-    <!--<img src="" alt=""
-        tal:replace="structure python:path('nocall:context/tag')(scale=image_scale, alt=desc, title=desc)" />-->
     <img tal:attributes="src string:${context/absolute_url}/@@download/image/${picture/filename};
                          height picture/_height | nothing;
-                         width picture/_width | nothing;"
-        />
+                         width picture/_width | nothing;" />
+    <div class="orbit-caption">
+      <div class="fs-caption show-for-medium-up">
+        <h1 tal:content="context/title">A piece of OCEAN!</h1>
+        <p tal:content="context/description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.
+            <span data-tooltip
+                  data-options="disable_for_touch:true"
+                  class="has-tip [tip-bottom] [radius round]"
+                  title="Read all about our amazing 'A piece of OCEAN' project!"
+                  tal:attributes="title string:Read all about our amazing '${context/title}' project!">
+                <a href="#">Mehr...</a>
+            </span>
+        </p>
+      </div>
+    </div>
 </tal:block>

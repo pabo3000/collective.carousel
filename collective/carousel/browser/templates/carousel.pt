@@ -1,57 +1,355 @@
-<div class="carouselWrapper"
-     tal:condition="view/getProviders"
-     i18n:domain="collective.carousel">
+<section class="slider-section carouselWrapper"
+         tal:condition="view/getProviders"
+         i18n:domain="collective.carousel">
+  <tal:carousel repeat="provider view/getProviders">
+    <div class="row carousel">
+      <div class="side-wrap">
+        <div class="large-12"
+        tal:attributes="class python:repeat['provider'].end and 'large-12 collective carousel lastCarousel' or 'large-12 collective carousel'"
+        tal:condition="python: view.results(provider)">
+          <ul class="fs-splash-orbit" data-orbit>
+            <tal:block tal:repeat="item python:view.results(provider)">
+              <li class="itemPadding"
+                   tal:define="item_object item/getObject;
+                               dummy python:view.request.set('carousel_image_scale', None);">
+                <tal:com condition="nothing">re-set carousel_image_scale to None, as it is only used in   portlets</tal:com>
+                <tal:block replace="structure python:view.get_tile(item_object)" />
+              </li>
 
-     <tal:carousel repeat="provider view/getProviders">
-        <div class="carousel"
-             tal:attributes="class python:repeat['provider'].end and 'collective carousel lastCarousel' or 'collective carousel'"
-             tal:condition="python: view.results(provider)">
+            </tal:block>
 
-            <div class="toolBar" tal:condition="python:view.canSeeEditLink(provider)">
-                <!-- Wrapper for fullscreen switcher -->
-                <a href="#" tal:attributes="href python:view.editCarouselLink(provider)"
-                   title="Edit carousel's results"
-                   i18n:attributes="title"
-                   i18n:translate="label_edit_carousel">Edit Carousel</a>
-            </div>
-
-            <!-- "previous page" action -->
-            <a class="prev browse"
-               title="Previous item"
-               i18n:attributes="title label_previous_item"><span i18n:translate="label_previous_item">Previous item</span></a>
-
-            <!-- <div class="kiosk-wrapper"> -->
-            <div class="scrollable">
-                <div class="items">
-
-                    <tal:block tal:repeat="item python:view.results(provider)">
-                        <div class="tileItem visualIEFloatFix"
-                             tal:define="item_object item/getObject">
-
-                            <div class="itemPadding" tal:define="dummy python:view.request.set('carousel_image_scale', None);"><tal:com condition="nothing">re-set carousel_image_scale to None, as it is only used in portlets</tal:com>
-                                <tal:block replace="structure python:view.get_tile(item_object)" />
-                            </div>
-
-                            <div class="visualClear"><!-- --></div>
-
-                        </div>
-                    </tal:block>
-
-                </div>
-            </div>
-            <!-- </div> -->
-
-            <!-- "next page" action -->
-            <a class="next browse"
-               title="Next item"
-               i18n:attributes="title label_next_item"><span i18n:translate="label_next_item">Next item</span></a>
-
-           <!-- wrapper for navigator elements -->
-           <div class="navi"><!-- --></div>
-
+          </ul>
         </div>
-    </tal:carousel>
+      </div>
+    </div>
+  </tal:carousel>
 
-    <div class="visualClear"><!-- --></div>
+  <div class="visualClear"><!-- --></div>
+  <script type="text/javascript">
+  var app = (function(document, $) {
 
-</div>
+    'use strict';
+    var docElem = document.documentElement,
+
+        _userAgentInit = function() {
+            docElem.setAttribute('data-useragent', navigator.userAgent);
+        },
+        _init = function() {
+            $(document).foundation();
+            _userAgentInit();
+        };
+
+    return {
+        init: _init
+    };
+
+})(document, jQuery);
+
+(function() {
+
+    'use strict';
+    app.init();
+
+})();
+
+// Close Offcanvas on resize
+$(window).resize(function() {
+    'use strict';
+    if (window.innerWidth > 641) {
+        $('.off-canvas-wrap').removeClass('move-right');
+    }
+});
+
+
+// Masonry
+$('#masonry-container').masonry({
+    itemSelector: '.masonry-tile',
+    // set columnWidth a fraction of the container width
+    columnWidth: function(containerWidth) {
+        'use strict';
+        return containerWidth / 5;
+    }
+});
+
+
+// or with jQuery
+// initialize Masonry
+var $container = $('#masonry-container').masonry();
+// layout Masonry again after all images have loaded
+$container.imagesLoaded(function() {
+    'use strict';
+    $container.masonry();
+});
+
+
+function masonryCheck() {
+    'use strict';
+    var container = document.getElementById('masonry-section');
+    var sheet = window.document.styleSheets[0];
+    if (container.getElementsByClassName) {
+        var masonryTiles = container.getElementsByClassName('masonry-tile');
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = 'html { overflow-y: scroll; }';
+        document.getElementsByTagName('head')[0].appendChild(style);
+    } else {
+        console.log('No masonry section detected!');
+    }
+}
+
+masonryCheck();
+
+
+/**
+ * jquery.hoverdir.js v1.1.0
+ * http://www.codrops.com
+ *
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * Copyright 2012, Codrops
+ * http://www.codrops.com
+ */
+;
+(function($, window, undefined) {
+
+    'use strict';
+
+    $.HoverDir = function(options, element) {
+
+        this.$el = $(element);
+        this._init(options);
+
+    };
+
+    // the options
+    $.HoverDir.defaults = {
+        speed: 300,
+        easing: 'ease',
+        hoverDelay: 0,
+        inverse: false
+    };
+
+    $.HoverDir.prototype = {
+
+        _init: function(options) {
+
+            // options
+            this.options = $.extend(true, {}, $.HoverDir.defaults, options);
+            // transition properties
+            this.transitionProp = 'all ' + this.options.speed + 'ms ' + this.options.easing;
+            // support for CSS transitions
+            this.support = Modernizr.csstransitions;
+            // load the events
+            this._loadEvents();
+
+        },
+        _loadEvents: function() {
+
+            var self = this;
+
+            this.$el.on('mouseenter.hoverdir, mouseleave.hoverdir', function(event) {
+
+                var $el = $(this),
+                    $hoverElem = $el.find('div'),
+                    direction = self._getDir($el, {
+                        x: event.pageX,
+                        y: event.pageY
+                    }),
+                    styleCSS = self._getStyle(direction);
+
+                if (event.type === 'mouseenter') {
+
+                    $hoverElem.hide().css(styleCSS.from);
+                    clearTimeout(self.tmhover);
+
+                    self.tmhover = setTimeout(function() {
+
+                        $hoverElem.show(0, function() {
+
+                            var $el = $(this);
+                            if (self.support) {
+                                $el.css('transition', self.transitionProp);
+                            }
+                            self._applyAnimation($el, styleCSS.to, self.options.speed);
+
+                        });
+
+
+                    }, self.options.hoverDelay);
+
+                } else {
+
+                    if (self.support) {
+                        $hoverElem.css('transition', self.transitionProp);
+                    }
+                    clearTimeout(self.tmhover);
+                    self._applyAnimation($hoverElem, styleCSS.from, self.options.speed);
+
+                }
+
+            });
+
+        },
+        // credits : http://stackoverflow.com/a/3647634
+        _getDir: function($el, coordinates) {
+
+            // the width and height of the current div
+            var w = $el.width(),
+                h = $el.height(),
+
+                // calculate the x and y to get an angle to the center of the div from that x and y.
+                // gets the x value relative to the center of the DIV and "normalize" it
+                x = (coordinates.x - $el.offset().left - (w / 2)) * (w > h ? (h / w) : 1),
+                y = (coordinates.y - $el.offset().top - (h / 2)) * (h > w ? (w / h) : 1),
+
+                // the angle and the direction from where the mouse came in/went out clockwise (TRBL=0123);
+                // first calculate the angle of the point,
+                // add 180 deg to get rid of the negative values
+                // divide by 90 to get the quadrant
+                // add 3 and do a modulo by 4  to shift the quadrants to a proper clockwise TRBL (top/right/bottom/left) **/
+                direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
+
+            return direction;
+
+        },
+        _getStyle: function(direction) {
+
+            var fromStyle, toStyle,
+                slideFromTop = {
+                    left: '0px',
+                    top: '-100%'
+                },
+                slideFromBottom = {
+                    left: '0px',
+                    top: '100%'
+                },
+                slideFromLeft = {
+                    left: '-100%',
+                    top: '0px'
+                },
+                slideFromRight = {
+                    left: '100%',
+                    top: '0px'
+                },
+                slideTop = {
+                    top: '0px'
+                },
+                slideLeft = {
+                    left: '0px'
+                };
+
+            switch (direction) {
+                case 0:
+                    // from top
+                    fromStyle = !this.options.inverse ? slideFromTop : slideFromBottom;
+                    toStyle = slideTop;
+                    break;
+                case 1:
+                    // from right
+                    fromStyle = !this.options.inverse ? slideFromRight : slideFromLeft;
+                    toStyle = slideLeft;
+                    break;
+                case 2:
+                    // from bottom
+                    fromStyle = !this.options.inverse ? slideFromBottom : slideFromTop;
+                    toStyle = slideTop;
+                    break;
+                case 3:
+                    // from left
+                    fromStyle = !this.options.inverse ? slideFromLeft : slideFromRight;
+                    toStyle = slideLeft;
+                    break;
+            }
+
+            return {
+                from: fromStyle,
+                to: toStyle
+            };
+
+        },
+        // apply a transition or fallback to jquery animate based on Modernizr.csstransitions support
+        _applyAnimation: function(el, styleCSS, speed) {
+
+            $.fn.applyStyle = this.support ? $.fn.css : $.fn.animate;
+            el.stop().applyStyle(styleCSS, $.extend(true, [], {
+                duration: speed + 'ms'
+            }));
+
+        },
+
+    };
+
+    var logError = function(message) {
+
+        if (window.console) {
+
+            window.console.error(message);
+
+        }
+
+    };
+
+    $.fn.hoverdir = function(options) {
+
+        var instance = $.data(this, 'hoverdir');
+
+        if (typeof options === 'string') {
+
+            var args = Array.prototype.slice.call(arguments, 1);
+
+            this.each(function() {
+
+                if (!instance) {
+
+                    logError('cannot call methods on hoverdir prior to initialization; ' +
+                        'attempted to call method "' + options + '"');
+                    return;
+
+                }
+
+                if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
+
+                    logError('no such method "' + options + '" for hoverdir instance');
+                    return;
+
+                }
+
+                instance[options].apply(instance, args);
+
+            });
+
+        } else {
+
+            this.each(function() {
+
+                if (instance) {
+
+                    instance._init();
+
+                } else {
+
+                    instance = $.data(this, 'hoverdir', new $.HoverDir(options, this));
+
+                }
+
+            });
+
+        }
+
+        return instance;
+
+    };
+
+})(jQuery, window);
+
+
+$(function() {
+
+    $(' #da-thumbs > li ').each(function() {
+        $(this).hoverdir();
+    });
+
+});
+</script>
+</section>
