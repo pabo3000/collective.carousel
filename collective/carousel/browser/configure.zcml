@@ -70,14 +70,14 @@
         />
     <browser:page
         name="carousel-view"
-        for="Products.ATContentTypes.interface.IATNewsItem"
+        for="plone.app.contenttypes.interfaces.INewsItem"
         template="templates/news_item_tile.pt"
         permission="zope2.View"
         layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
         />
     <browser:page
         name="carousel-view"
-        for="Products.ATContentTypes.interface.IATImage"
+        for="plone.app.contenttypes.interfaces.IImage"
         template="templates/image_tile.pt"
         permission="zope2.View"
         layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
@@ -88,7 +88,7 @@
   <!-- default view for standard carousel is good enough for the portlet as well -->
   <browser:page
       name="carousel-portlet-view"
-      for="Products.ATContentTypes.interface.IATContentType"
+      for="Products.ATContentTypes.interfaces.IATContentType"
       template="templates/default_tile.pt"
       permission="zope2.View"
       layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
@@ -107,6 +107,32 @@
       permission="zope2.View"
       layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
       />
+
+  <!-- Views for carousel portlet -->
+  <!-- Views for when plone.app.contenttypes is installed -->
+  <configure zcml:condition="installed plone.app.contenttypes">
+    <browser:page
+        name="carousel-portlet-portlet-portlet-view"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        template="templates/default_tile.pt"
+        permission="zope2.View"
+        layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
+        />
+    <browser:page
+        name="carousel-portlet-view"
+        for="plone.app.contenttypes.interfaces.INewsItem"
+        template="templates/news_item_tile.pt"
+        permission="zope2.View"
+        layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
+        />
+    <browser:page
+        name="carousel-portlet-view"
+        for="plone.app.contenttypes.interfaces.IImage"
+        template="templates/image_tile.pt"
+        permission="zope2.View"
+        layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
+        />
+  </configure>
 
 
   <!-- Special tiles for when contentleadimage is installed -->
