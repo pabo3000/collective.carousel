@@ -46,14 +46,14 @@
       />
   <browser:page
       name="carousel-view"
-      for="plone.app.contenttypes.interfaces.INewsItem"
+      for="Products.ATContentTypes.interface.IATNewsItem"
       template="templates/news_item_tile.pt"
       permission="zope2.View"
       layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
       />
   <browser:page
       name="carousel-view"
-      for="plone.app.contenttypes.interfaces.IImage"
+      for="Products.ATContentTypes.interface.IATImage"
       template="templates/image_tile.pt"
       permission="zope2.View"
       layer="collective.carousel.interfaces.ICollectiveCarouselLayer"
