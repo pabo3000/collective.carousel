@@ -12,8 +12,15 @@ except ImportError:
         from plone.app.collection.interfaces import ICollection
     except ImportError:
         from zope.interface import Interface
+<<<<<<< Updated upstream
         class ICollection(Interface):
             pass
+=======
+
+        class ICollection(Interface):
+            pass
+
+>>>>>>> Stashed changes
 
 class CarouselViewlet(ViewletBase):
     index = ViewPageTemplateFile('templates/carousel.pt')
